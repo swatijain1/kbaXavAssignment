@@ -15,15 +15,12 @@ const Header = (props) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <NavItem>
-              <Link to="/promises">Promises</Link>
-            </NavItem>
-            <NavItem>
               <Link to="/product-list">Product-list</Link>
             </NavItem>
           </Nav>
           <Nav pullRight>
             <NavItem>
-              <Link to="/cart">{`Cart ${totalItems}`}</Link>
+              <Link to="/cart">Cart <sub className="total-items">{totalItems}</sub></Link>
             </NavItem>
           </Nav>
         </Navbar.Collapse>

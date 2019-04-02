@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import Header from '../../Components/Header'
-import Product from '../../Components/Product'
+
+import { Product } from '../../Components'
 import productList from '../../Constants/productData'
+import { addToCart } from '../../Actions/cart'
 
 class ProductList extends Component {
     render() {
+        const { cart: { cart:shoppingCart}, addToCart } = this.props
+
         const products = productList.map(product => (
             <Col key={`product-${product.id}`}>
-                <Product product={product} />
+                <Product product={product} cart={shoppingCart} addToCart={addToCart} />
             </Col>
         ))
+
         let list = []
         for(let i=0; i<products.length;i=i+4) {
             list.push(<Row key={`row-${i}`}>
@@ -22,20 +26,20 @@ class ProductList extends Component {
             </Row>)
         }
 
-        return [
-            <Header key="header" />,
-            <Container key="container">
+        return (
+            <Container>
                 {list}
             </Container>
-        ]
+        )
     }
 }
 
-const mapDispatchToProps = () => ({
-
+const mapDispatchToProps = (dispatch) => ({
+    addToCart: (product) => dispatch(addToCart(product))
 })
 
-const mapStateToProps = () => ({
-    
+const mapStateToProps = ({ cart }) => ({
+    cart
 })
+
 export default connect(mapStateToProps, mapDispatchToProps)(ProductList)

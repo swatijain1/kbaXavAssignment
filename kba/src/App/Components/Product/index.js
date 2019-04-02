@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 
-import { addToCart } from '../../Actions/cart'
 import './style.scss'
 
 class Product extends Component {
+    state = {
+        disableButton: false
+    }
     addToCart = () => {
         const { product, addToCart } = this.props
         const productDetails = {
@@ -15,9 +16,19 @@ class Product extends Component {
         }
         addToCart(productDetails)
     }
+    
+    static getDerivedStateFromProps(props, state) {
+        const { cart, product } = props
+        if(cart.filter(cartProduct => cartProduct.id === product.id).length && !state.disableButton) {
+            return {disableButton: true}
+        }
+        return null;
+    }
+    
     render() {
-        const { image, price, name } = this.props.product
-
+        const { product:{ image, price, name }, cart } = this.props
+        const { disableButton } = this.state
+       
         return (
                 <div className='product'>
                     <img src={image} alt='cannot load' />
@@ -25,19 +36,10 @@ class Product extends Component {
                         <div>{name}</div>
                         <div>Price: Rs {price} </div>
                     </div>
-                    <Button onClick={this.addToCart}>Add to cart</Button>
+                    <Button disabled={disableButton} variant="outline-success" onClick={this.addToCart}>Add to cart</Button>
                 </div>
         )
     }
 }
 
-  
-const mapDispatchToProps = (dispatch) => ({
-    addToCart: (product) => dispatch(addToCart(product))
-})
-
-const mapStateToProps = (state) => ({
-    cart: state.cart
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Product)
+export default Product
