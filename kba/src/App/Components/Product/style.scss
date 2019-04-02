@@ -1,0 +1,17 @@
+.product {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+
+    .description {
+        padding-bottom: 10px;
+        margin: auto;
+    }
+    img {
+        /* width: fill-available; */
+        width: 100px;
+        height: 100px;
+    }
+}
